@@ -174,12 +174,14 @@ function ProductCard({ product, preload, itemListName }: Props) {
                 <video
                   loop={true}
                   autoPlay={true}
+                  playsInline={true}
+                  muted={true}
                   poster={front.url!}
-                  src={videoURL.value}
                   width={WIDTH}
                   height={HEIGHT}
                   class={`w-full h-full object-cover align-top`}
                 >
+                  <source type="video/mp4" src={videoURL.value}></source>
                 </video>
               )
               : (
