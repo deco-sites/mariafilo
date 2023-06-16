@@ -1,5 +1,5 @@
 import Image from "deco-sites/std/components/Image.tsx";
-import { headerHeight } from "./constants.ts";
+import classnames from "classnames";
 
 export interface INavItem {
   label: string;
@@ -8,13 +8,13 @@ export interface INavItem {
   image?: { src?: string; alt?: string };
 }
 
-function NavItem({ item }: { item: INavItem }) {
+function NavItem({ item, isSticky }: { item: INavItem; isSticky: boolean }) {
   const { href, label, children, image } = item;
 
   return (
     <li class="group flex items-center">
-      <a href={href} class="px-4 py-3">
-        <span class="group-hover:underline">
+      <a href={href} class="px-4 py-7">
+        <span class="relative lg:group-hover:after:border-b lg:group-hover:after:content-[''] lg:group-hover:after:absolute lg:group-hover:after:left-0 lg:group-hover:after:bottom-0 lg:group-hover:after:w-full lg:group-hover:after:bg-role-neutral-dark-1 lg:group-hover:after:h-[1px] lg:group-hover:after:translate-y-4">
           {label}
         </span>
       </a>
@@ -22,8 +22,10 @@ function NavItem({ item }: { item: INavItem }) {
       {children && children.length > 0 &&
         (
           <div
-            class="fixed hidden hover:flex group-hover:flex bg-base-100 z-50 items-start justify-center gap-6 border-t border-b-2 border-base-200 w-screen"
-            style={{ top: "0px", left: "0px", marginTop: headerHeight }}
+            class={classnames(
+              `fixed hidden hover:flex group-hover:flex bg-base-100 z-50 items-start justify-center gap-6 border-t border-b-2 border-base-200 w-screen top-0 left-0`,
+              isSticky ? "mt-[76px]" : "mt-[110px]",
+            )}
           >
             {image?.src && (
               <Image

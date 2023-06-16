@@ -3,6 +3,8 @@ import type {
   UnitPriceSpecification,
 } from "deco-sites/std/commerce/types.ts";
 
+import { formatPrice } from "$store/sdk/format.ts";
+
 const bestInstallment = (
   acc: UnitPriceSpecification | null,
   curr: UnitPriceSpecification,
@@ -33,7 +35,7 @@ const bestInstallment = (
   return acc;
 };
 
-const installmentToString = (
+const _installmentToStringFull = (
   installment: UnitPriceSpecification,
   sellingPrice: number,
 ) => {
@@ -48,6 +50,19 @@ const installmentToString = (
   return `${billingDuration}x de R$ ${billingIncrement} ${
     withTaxes ? "com juros" : "sem juros"
   }`;
+};
+
+const installmentToString = (
+  installment: UnitPriceSpecification,
+  priceCurrency: string,
+) => {
+  const { billingDuration, billingIncrement } = installment;
+
+  if (!billingDuration || !billingIncrement) {
+    return "";
+  }
+
+  return `${billingDuration}x ${formatPrice(billingIncrement, priceCurrency)}`;
 };
 
 export const useOffer = (aggregateOffer?: AggregateOffer) => {
@@ -66,7 +81,7 @@ export const useOffer = (aggregateOffer?: AggregateOffer) => {
     availability,
     seller,
     installments: installment && price
-      ? installmentToString(installment, price)
+      ? installmentToString(installment, aggregateOffer?.priceCurrency!)
       : null,
   };
 };

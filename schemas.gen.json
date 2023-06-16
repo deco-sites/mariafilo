@@ -64,8 +64,10 @@
               "./islands/HeaderButton.tsx",
               "./islands/HeaderModals.tsx",
               "./islands/HeaderSearchbar.tsx",
+              "./islands/Navbar.tsx",
               "./islands/Newsletter.tsx",
               "./islands/OutOfStock.tsx",
+              "./islands/ProductCard.tsx",
               "./islands/ProductImageZoom.tsx",
               "./islands/SearchControls.tsx",
               "./islands/ShippingSimulation.tsx",
@@ -6853,6 +6855,128 @@
       ],
       "title": "deco-sites/std/packs/vtex/loaders/wishlist.ts@Props"
     },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvTmF2SXRlbS50c3g=@INavItem": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "title": "Label"
+        },
+        "href": {
+          "type": "string",
+          "title": "Href"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvTmF2SXRlbS50c3g=@INavItem"
+          },
+          "title": "Children"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "src": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Src"
+            },
+            "alt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "title": "Alt"
+            }
+          },
+          "required": [],
+          "title": "Image"
+        }
+      },
+      "required": [
+        "label",
+        "href"
+      ],
+      "title": "INavItem"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvTmF2SXRlbS50c3g=@INavItem[]": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvTmF2SXRlbS50c3g=@INavItem"
+      },
+      "title": "INavItem[]"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9zZWFyY2gvU2VhcmNoYmFyLnRzeA==@EditableProps": {
+      "type": "object",
+      "properties": {
+        "placeholder": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "Placeholder",
+          "description": "Search bar default placeholder message",
+          "default": "What are you looking for?"
+        },
+        "action": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "Page path",
+          "description": "When user clicks on the search button, navigate it to",
+          "default": "/s"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "Term name",
+          "description": "Querystring param used when navigating the user",
+          "default": "q"
+        },
+        "query": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "Query"
+        }
+      },
+      "required": [],
+      "title": "EditableProps"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9zZWFyY2gvU2VhcmNoYmFyLnRzeA==@2f3e1f40df63be5627dc2ae9f2ac630b&EditableProps": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9zZWFyY2gvU2VhcmNoYmFyLnRzeA==@EditableProps"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "variant": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "desktop"
+                },
+                {
+                  "type": "string",
+                  "const": "mobile"
+                }
+              ],
+              "type": "string",
+              "title": "Variant"
+            }
+          },
+          "required": []
+        }
+      ],
+      "title": "2f3e1f40df63be5627dc2ae9f2ac630b&EditableProps"
+    },
     "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9mb290ZXIvTmV3c2xldHRlci50c3g=@Form": {
       "type": "object",
       "properties": {
@@ -8858,47 +8982,6 @@
       "required": [],
       "title": "deco-sites/mariafilo/components/footer/Footer.tsx@Props"
     },
-    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9zZWFyY2gvU2VhcmNoYmFyLnRzeA==@EditableProps": {
-      "type": "object",
-      "properties": {
-        "placeholder": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "title": "Placeholder",
-          "description": "Search bar default placeholder message",
-          "default": "What are you looking for?"
-        },
-        "action": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "title": "Page path",
-          "description": "When user clicks on the search button, navigate it to",
-          "default": "/s"
-        },
-        "name": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "title": "Term name",
-          "description": "Querystring param used when navigating the user",
-          "default": "q"
-        },
-        "query": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "title": "Query"
-        }
-      },
-      "required": [],
-      "title": "EditableProps"
-    },
     "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvSGVhZGVyLnRzeA==@NavItem": {
       "type": "object",
       "properties": {
@@ -8984,6 +9067,38 @@
       },
       "title": "NavItem[]"
     },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvSGVhZGVyLnRzeA==@Bullets": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "Title"
+        },
+        "image_url": {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvY29tcG9uZW50cy90eXBlcy50cw==@Image",
+          "title": "Image"
+        },
+        "redirect_url": {
+          "type": "string",
+          "title": "URL"
+        }
+      },
+      "required": [
+        "image_url",
+        "redirect_url"
+      ],
+      "title": "Bullets"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvSGVhZGVyLnRzeA==@Bullets[]": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvSGVhZGVyLnRzeA==@Bullets"
+      },
+      "title": "Bullets[]"
+    },
     "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvSGVhZGVyLnRzeA==@Props": {
       "type": "object",
       "properties": {
@@ -9011,6 +9126,10 @@
         "suggestions": {
           "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvY29tbWVyY2UvdHlwZXMudHM=@Suggestion|null",
           "title": "Enable Top Search terms"
+        },
+        "bullets": {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9oZWFkZXIvSGVhZGVyLnRzeA==@Bullets[]",
+          "title": "Mobile Menu Bullets"
         }
       },
       "required": [
@@ -11281,7 +11400,7 @@
       ],
       "title": "WorkflowRef"
     },
-    "ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@83d660dd3cbc0efa537555e12b086226|WorkflowRef": {
+    "ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@WorkflowRef|fd0fcd78c4b899b30e00299b516a5aff": {
       "anyOf": [
         {
           "$ref": "#/definitions/ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@WorkflowRef"
@@ -11299,13 +11418,13 @@
           ]
         }
       ],
-      "title": "83d660dd3cbc0efa537555e12b086226|WorkflowRef"
+      "title": "WorkflowRef|fd0fcd78c4b899b30e00299b516a5aff"
     },
     "ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@Props": {
       "type": "object",
       "properties": {
         "workflow": {
-          "$ref": "#/definitions/ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@83d660dd3cbc0efa537555e12b086226|WorkflowRef",
+          "$ref": "#/definitions/ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@WorkflowRef|fd0fcd78c4b899b30e00299b516a5aff",
           "title": "Workflow"
         },
         "id": {
@@ -12798,6 +12917,22 @@
         }
       }
     },
+    "Li9pc2xhbmRzL05hdmJhci50c3g=": {
+      "title": "./islands/Navbar.tsx",
+      "type": "object",
+      "required": [
+        "__resolveType"
+      ],
+      "properties": {
+        "__resolveType": {
+          "type": "string",
+          "enum": [
+            "./islands/Navbar.tsx"
+          ],
+          "default": "./islands/Navbar.tsx"
+        }
+      }
+    },
     "Li9pc2xhbmRzL05ld3NsZXR0ZXIudHN4": {
       "title": "./islands/Newsletter.tsx",
       "type": "object",
@@ -12827,6 +12962,22 @@
             "./islands/OutOfStock.tsx"
           ],
           "default": "./islands/OutOfStock.tsx"
+        }
+      }
+    },
+    "Li9pc2xhbmRzL1Byb2R1Y3RDYXJkLnRzeA==": {
+      "title": "./islands/ProductCard.tsx",
+      "type": "object",
+      "required": [
+        "__resolveType"
+      ],
+      "properties": {
+        "__resolveType": {
+          "type": "string",
+          "enum": [
+            "./islands/ProductCard.tsx"
+          ],
+          "default": "./islands/ProductCard.tsx"
         }
       }
     },
@@ -14732,10 +14883,16 @@
           "$ref": "#/definitions/Li9pc2xhbmRzL0hlYWRlclNlYXJjaGJhci50c3g="
         },
         {
+          "$ref": "#/definitions/Li9pc2xhbmRzL05hdmJhci50c3g="
+        },
+        {
           "$ref": "#/definitions/Li9pc2xhbmRzL05ld3NsZXR0ZXIudHN4"
         },
         {
           "$ref": "#/definitions/Li9pc2xhbmRzL091dE9mU3RvY2sudHN4"
+        },
+        {
+          "$ref": "#/definitions/Li9pc2xhbmRzL1Byb2R1Y3RDYXJkLnRzeA=="
         },
         {
           "$ref": "#/definitions/Li9pc2xhbmRzL1Byb2R1Y3RJbWFnZVpvb20udHN4"

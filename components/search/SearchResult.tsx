@@ -32,11 +32,27 @@ function Result({
   page,
   variant,
 }: Omit<Props, "page"> & { page: ProductListingPage }) {
-  const { products, filters, breadcrumb, pageInfo, sortOptions } = page;
+  const { products, filters, breadcrumb, pageInfo, sortOptions, ...allData } =
+    page;
+
+  // http://localhost:8000/vestido-tricot-listrado-manga-curta-off-white-15-17434-0024/p?skuId=77425 -- com video
+  // http://localhost:8000/vestido-ggt-bicolor-decote-pregas-midi-laranja-aurora-15-17388-04320/p?skuId=77671
+  // http://localhost:8000/vestido-midi-estampa-peonia-est-peonia-tango---15-17301-30211/p?skuId=77936
+  // https://www.mariafilo.com.br/vestido-midi-cintura-elastico-preto-15-14001-0005-65289/p
+
+  // products.forEach((p) => {
+  //   if (
+  //     p.url?.includes(
+  //       "/vestido-midi-cintura-elastico-preto-15-14001-0005",
+  //     )
+  //   ) {
+  //     console.log(JSON.stringify(p));
+  //   }
+  // });
 
   return (
     <>
-      <div class="container px-4 sm:py-10">
+      <div class="px-4 sm:py-10">
         <SearchControls
           sortOptions={sortOptions}
           filters={filters}
@@ -44,7 +60,7 @@ function Result({
           displayFilter={variant === "drawer"}
         />
 
-        <div class="flex flex-row">
+        <div class="flex flex-row py-2 mt-10">
           {variant === "aside" && filters.length > 0 && (
             <aside class="hidden sm:block w-min min-w-[250px]">
               <Filters filters={filters} />
