@@ -37,22 +37,23 @@ function NavItem({ item, isSticky }: { item: INavItem; isSticky: boolean }) {
                 loading="lazy"
               />
             )}
-            <ul class="flex items-start justify-center gap-6">
+            <ul class="flex flex-col flex-wrap h-[300px] items-start justify-start gap-6 p-6">
               {children.map((node) => (
-                <li class="p-6">
+                <li class="mr-8">
                   <a class="hover:underline" href={node.href}>
                     <span>{node.label}</span>
                   </a>
-
-                  <ul class="flex flex-col gap-1 mt-4">
-                    {node.children?.map((leaf) => (
-                      <li>
-                        <a class="hover:underline" href={leaf.href}>
-                          <span class="text-xs">{leaf.label}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  {node.children && node.children?.length > 0 && (
+                    <ul class="flex flex-col gap-1 mt-4">
+                      {node.children?.map((leaf) => (
+                        <li class={`pl-4`}>
+                          <a class="hover:underline" href={leaf.href}>
+                            <span class="text-xs">{leaf.label}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

@@ -69,17 +69,10 @@ function ProductCard({ product, preload, itemListName }: Props) {
 
   useEffect(() => {
     const mouseEnter = () => {
-      console.log("teste");
-      // fetch("https://www.mariafilo.com.br/api/graphql?operationName=Similars", {
-      //   method: "POST",
-      //   headers: {
-      //     "User-Agent": "PostmanRuntime/7.32.2",
-      //   },
-      //   body: JSON.stringify({
-      //     "operationName": "Similars",
-      //     "variables": { "productId": productGroupID },
-      //   }),
-      // }).then((res) => res.json()).then((data) => console.log);
+      // console.log("teste");
+      // fetch(
+      //   `https://mariafilo.vtexcommercestable.com.br/api/catalog_system/pub/products/crossselling/similars/${productGroupID}`,
+      // ).then((res) => res.json()).then((data) => console.log);
     };
 
     document.getElementById(id)?.addEventListener("mouseenter", mouseEnter);
