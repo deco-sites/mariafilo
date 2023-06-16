@@ -31,7 +31,6 @@ function Modals({ menu, bullets, searchbar }: Props) {
   const bulletScroll = useId();
 
   useLayoutEffect(() => {
-    console.log(bulletScroll);
     if (displayMenu.value) {
       console.log(document.getElementById(bulletScroll));
     }

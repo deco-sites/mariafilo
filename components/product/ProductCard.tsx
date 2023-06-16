@@ -22,6 +22,10 @@ interface Props {
   itemListName?: string;
 }
 
+// interface SimilarProps {
+//   productId: string;
+// }
+
 const relative = (url: string) => {
   const link = new URL(url);
   return `${link.pathname}${link.search}`;
@@ -41,6 +45,7 @@ function ProductCard({ product, preload, itemListName }: Props) {
   } = product;
 
   const [selectedSku, setSelectedSku] = useState<VariantProps | null>(null);
+  // const [similars, setSimilars] = useState<SimilarProps[] | null>(null);
 
   const id = `product-card-${productID}`;
   const productGroupID = isVariantOf?.productGroupID;
@@ -67,12 +72,40 @@ function ProductCard({ product, preload, itemListName }: Props) {
     return img.alternateName === "thumb";
   });
 
+  const videoURL = isVariantOf?.additionalProperty.find((property) => {
+    return (property["@type"] === "PropertyValue" &&
+      property.name === "URL Video");
+  });
+
+  // useEffect(() => {
+  //   console.log(similars);
+  // }, [similars]);
+
   useEffect(() => {
     const mouseEnter = () => {
       // console.log("teste");
+      // otimizar
+      // if (similars === null) {
       // fetch(
       //   `https://mariafilo.vtexcommercestable.com.br/api/catalog_system/pub/products/crossselling/similars/${productGroupID}`,
-      // ).then((res) => res.json()).then((data) => console.log);
+      //   { mode: "no-cors" },
+      // ).then((res) => {
+      //   console.log(res);
+
+      //   return res.json();
+      // }).then((data) => console.log);
+
+      // fetch(
+      //   `https://mariafilo.vtexcommercestable.com.br/api/catalog_system/pub/products/crossselling/similars/${productGroupID}`,
+      //   { mode: "no-cors" },
+      // ).then((res) => res.json()).then((data) => {
+      //   console.log(data);
+      //   setSimilars(data.map((d: { productId: string }) => {
+      //     const { productId } = d;
+      //     return { productId };
+      //   }));
+      // });
+      // }
     };
 
     document.getElementById(id)?.addEventListener("mouseenter", mouseEnter);
@@ -136,29 +169,46 @@ function ProductCard({ product, preload, itemListName }: Props) {
             aria-label="view product"
             class="contents"
           >
-            <Image
-              src={front.url!}
-              alt={front.alternateName}
-              width={WIDTH}
-              height={HEIGHT}
-              class={`
+            {videoURL
+              ? (
+                <video
+                  loop={true}
+                  autoPlay={true}
+                  poster={front.url!}
+                  src={videoURL.value}
+                  width={WIDTH}
+                  height={HEIGHT}
+                  class={`w-full h-full object-cover align-top`}
+                >
+                </video>
+              )
+              : (
+                <>
+                  <Image
+                    src={front.url!}
+                    alt={front.alternateName}
+                    width={WIDTH}
+                    height={HEIGHT}
+                    class={`
               absolute w-full duration-500 transition-opacity opacity-100 lg:group-hover:opacity-0
             `}
-              sizes="(max-width: 640px) 50vw, 20vw"
-              preload={preload}
-              loading={preload ? "eager" : "lazy"}
-              decoding="async"
-            />
-            <Image
-              src={back?.url ?? front.url!}
-              alt={back?.alternateName ?? front.alternateName}
-              width={WIDTH}
-              height={HEIGHT}
-              class="absolute transition-opacity w-full opacity-0 lg:group-hover:opacity-100"
-              sizes="(max-width: 640px) 50vw, 20vw"
-              loading="lazy"
-              decoding="async"
-            />
+                    sizes="(max-width: 640px) 50vw, 20vw"
+                    preload={preload}
+                    loading={preload ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                  <Image
+                    src={back?.url ?? front.url!}
+                    alt={back?.alternateName ?? front.alternateName}
+                    width={WIDTH}
+                    height={HEIGHT}
+                    class="absolute transition-opacity w-full opacity-0 lg:group-hover:opacity-100"
+                    sizes="(max-width: 640px) 50vw, 20vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </>
+              )}
           </a>
         </figure>
         {/* Prices & Name */}
@@ -228,15 +278,17 @@ function ProductCard({ product, preload, itemListName }: Props) {
           }
 
           <div class={`hidden lg:group-hover:flex flex-col items-end`}>
-            <div class={`border rounded-full p-px w-[22px] h-[22px]`}>
-              {thumb && thumb.url && (
-                <Image
-                  src={thumb.url}
-                  width={22}
-                  height={22}
-                  class={`rounded-full w-full`}
-                />
-              )}
+            <div class={`mb-[2px] p-[2px] relative top-[-2px]`}>
+              <div class={`border rounded-full p-px w-[22px] h-[22px]`}>
+                {thumb && thumb.url && (
+                  <Image
+                    src={thumb.url}
+                    width={22}
+                    height={22}
+                    class={`rounded-full w-full`}
+                  />
+                )}
+              </div>
             </div>
             {/* SKU Selector */}
             <ul

@@ -79,7 +79,7 @@ function Header({
 }: SectionProps<typeof loader>) {
   const searchbar = { ..._searchbar, products, suggestions };
 
-  console.log(request);
+  // console.log(request);
 
   return (
     <>
