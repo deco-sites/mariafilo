@@ -63,9 +63,9 @@ export interface Props {
 }
 
 export const loader = (props: Props, req: Request) => {
-  console.log({ req });
+  console.log(Object.entries(req));
 
-  return { ...props, request: req };
+  return { ...props, request: "teste" };
 };
 
 function Header({
@@ -79,7 +79,7 @@ function Header({
 }: SectionProps<typeof loader>) {
   const searchbar = { ..._searchbar, products, suggestions };
 
-  // console.log(request);
+  console.log({ request });
 
   return (
     <>

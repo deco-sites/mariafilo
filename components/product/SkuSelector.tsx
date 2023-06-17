@@ -2,7 +2,7 @@ import { useVariantSkus } from "$store/sdk/useVariantPossiblities.ts";
 import type { Product } from "deco-sites/std/commerce/types.ts";
 import Avatar from "$store/components/ui/Avatar.tsx";
 
-import type { StateUpdater } from "preact/hooks";
+import { useSkuSelector } from "deco-sites/fashion/sdk/useSkuSelector.ts";
 
 export interface VariantProps {
   sku: string;
@@ -13,19 +13,19 @@ export interface VariantProps {
 
 export interface Props {
   product: Product;
-  selected: VariantProps | null;
-  setSku: StateUpdater<VariantProps | null>;
 }
 
-const SkuSelector = ({ product, selected, setSku }: Props) => {
+const SkuSelector = ({ product }: Props) => {
   const variants = useVariantSkus(product);
+
+  const { selectedSku, setSku } = useSkuSelector();
 
   const selector = variants.map((v) => {
     return (
       <li
         onClick={() => {
           if (v.availability) {
-            if (selected?.sku === v.sku) {
+            if (selectedSku.value?.sku === v.sku) {
               setSku(null);
             } else {
               setSku(v);
@@ -33,7 +33,7 @@ const SkuSelector = ({ product, selected, setSku }: Props) => {
           }
         }}
         class={`flex justify-center items-center relative rounded-full w-6 h-6 text-xs ${
-          selected?.sku === v.sku ? "border" : ""
+          selectedSku.value?.sku === v.sku ? "border" : ""
         } ${
           v.availability
             ? "cursor-pointer"

@@ -1,17 +1,17 @@
 import Image from "deco-sites/std/components/Image.tsx";
-import { useEffect, useState } from "preact/hooks";
 
 import AddToCartButton from "$store/islands/AddToCartButton.tsx";
 
 import WishlistIcon from "$store/islands/WishlistButton.tsx";
-import SkuSelector from "./SkuSelector.tsx";
+import SkuSelector from "$store/islands/SkuSelector.tsx";
 import { useOffer } from "$store/sdk/useOffer.ts";
 import { formatPrice } from "$store/sdk/format.ts";
 
 import { mapProductToAnalyticsItem } from "deco-sites/std/commerce/utils/productToAnalyticsItem.ts";
 import { SendEventOnClick } from "$store/sdk/analytics.tsx";
 import type { Product } from "deco-sites/std/commerce/types.ts";
-import type { VariantProps } from "./SkuSelector.tsx";
+
+import ThumbColors from "./ThumbColors.tsx";
 
 interface Props {
   product: Product;
@@ -44,17 +44,18 @@ function ProductCard({ product, preload, itemListName }: Props) {
     isVariantOf,
   } = product;
 
-  const [selectedSku, setSelectedSku] = useState<VariantProps | null>(null);
-  // const [similars, setSimilars] = useState<SimilarProps[] | null>(null);
+  // const checkLog = product.url?.includes(
+  //   "/vestido-midi-cintura-elastico-preto-",
+  // );
+
+  // if (checkLog && product.isSimilarTo && product.isSimilarTo.length > 0) {
+  //   console.log(JSON.stringify(product));
+  // }
 
   const id = `product-card-${productID}`;
   const productGroupID = isVariantOf?.productGroupID;
   const realName = isVariantOf?.name || name;
   const [front, back] = images ?? [];
-
-  // const checkLog = product.url?.includes(
-  //   "/vestido-midi-cintura-elastico-preto-15-14001-0005",
-  // );
 
   const variantOffer = isVariantOf?.hasVariant.filter((variant) => {
     const variantOffers = variant.offers?.offers.find((v) => {
@@ -68,52 +69,10 @@ function ProductCard({ product, preload, itemListName }: Props) {
     variantOffer ? variantOffer[0].offers : offers,
   );
 
-  const thumb = product?.image?.find((img) => {
-    return img.alternateName === "thumb";
-  });
-
   const videoURL = isVariantOf?.additionalProperty.find((property) => {
     return (property["@type"] === "PropertyValue" &&
       property.name === "URL Video");
   });
-
-  // useEffect(() => {
-  //   console.log(similars);
-  // }, [similars]);
-
-  useEffect(() => {
-    const mouseEnter = () => {
-      // console.log("teste");
-      // otimizar
-      // if (similars === null) {
-      // fetch(
-      //   `https://mariafilo.vtexcommercestable.com.br/api/catalog_system/pub/products/crossselling/similars/${productGroupID}`,
-      //   { mode: "no-cors" },
-      // ).then((res) => {
-      //   console.log(res);
-
-      //   return res.json();
-      // }).then((data) => console.log);
-
-      // fetch(
-      //   `https://mariafilo.vtexcommercestable.com.br/api/catalog_system/pub/products/crossselling/similars/${productGroupID}`,
-      //   { mode: "no-cors" },
-      // ).then((res) => res.json()).then((data) => {
-      //   console.log(data);
-      //   setSimilars(data.map((d: { productId: string }) => {
-      //     const { productId } = d;
-      //     return { productId };
-      //   }));
-      // });
-      // }
-    };
-
-    document.getElementById(id)?.addEventListener("mouseenter", mouseEnter);
-
-    return () => {
-      document.getElementById(id)?.addEventListener("mouseenter", mouseEnter);
-    };
-  }, []);
 
   const cta = (
     <a
@@ -125,6 +84,10 @@ function ProductCard({ product, preload, itemListName }: Props) {
     </a>
   );
 
+  const similars = product.isSimilarTo && product.isSimilarTo.length > 0
+    ? product.isSimilarTo
+    : [];
+
   return (
     <div
       id={id}
@@ -132,7 +95,7 @@ function ProductCard({ product, preload, itemListName }: Props) {
       data-deco="view-product"
     >
       <div
-        class={`w-full h-full lg:hover:shadow-[0px_0px_8px_0px_#cccccc]`}
+        class={`w-full h-full lg:group-hover:shadow-[0px_0px_8px_0px_#cccccc]`}
       >
         <SendEventOnClick
           id={id}
@@ -281,16 +244,7 @@ function ProductCard({ product, preload, itemListName }: Props) {
 
           <div class={`hidden lg:group-hover:flex flex-col items-end`}>
             <div class={`mb-[2px] p-[2px] relative top-[-2px]`}>
-              <div class={`border rounded-full p-px w-[22px] h-[22px]`}>
-                {thumb && thumb.url && (
-                  <Image
-                    src={thumb.url}
-                    width={22}
-                    height={22}
-                    class={`rounded-full w-full`}
-                  />
-                )}
-              </div>
+              <ThumbColors current={product!} similars={similars} />
             </div>
             {/* SKU Selector */}
             <ul
@@ -298,8 +252,6 @@ function ProductCard({ product, preload, itemListName }: Props) {
             >
               <SkuSelector
                 product={product}
-                selected={selectedSku}
-                setSku={setSelectedSku}
               />
             </ul>
           </div>
@@ -308,24 +260,14 @@ function ProductCard({ product, preload, itemListName }: Props) {
           <div
             class={`hidden group-hover:flex flex-auto items-end`}
           >
-            {selectedSku !== null
-              ? (
-                <AddToCartButton
-                  skuId={selectedSku.sku}
-                  sellerId={seller!}
-                  price={price ?? 0}
-                  discount={price && listPrice ? listPrice - price : 0}
-                  name={selectedSku.skuName ?? ""}
-                  productGroupId={selectedSku.productGroupID ?? ""}
-                />
-              )
-              : (
-                <div
-                  class={`bg-role-neutral-dark-1 text-role-neutral-light-1 w-full h-12 flex justify-center items-center text-sm`}
-                >
-                  SELECIONE UM TAMANHO
-                </div>
-              )}
+            <AddToCartButton
+              skuId={productID}
+              sellerId={seller!}
+              price={price ?? 0}
+              discount={price && listPrice ? listPrice - price : 0}
+              name={product.name ?? ""}
+              productGroupId={product.isVariantOf?.productGroupID ?? ""}
+            />
           </div>
         </div>
       </div>

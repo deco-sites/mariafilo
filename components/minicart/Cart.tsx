@@ -101,7 +101,7 @@ function Cart() {
           <a
             class="inline-block w-full"
             target={"_blank"}
-            href={`https://secure.mariafilo.com.br/checkout?orderFormId=${cart.value.orderFormId}/#/cart`}
+            href={`/checkout?orderFormId=${cart.value.orderFormId}/#/cart`}
           >
             <Button
               data-deco="buy-button"

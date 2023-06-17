@@ -47,6 +47,8 @@
               "$live/loaders/state.ts",
               "$live/loaders/workflows/events.ts",
               "$live/loaders/workflows/get.ts",
+              "deco-sites/mariafilo/loaders/vtexProductList.tsx",
+              "deco-sites/mariafilo/loaders/vtexProductListPage.tsx",
               "deco-sites/std/loaders/vtex/cart.ts",
               "deco-sites/std/loaders/vtex/intelligentSearch/productDetailsPage.ts",
               "deco-sites/std/loaders/vtex/intelligentSearch/productList.ts",
@@ -67,10 +69,10 @@
               "./islands/Navbar.tsx",
               "./islands/Newsletter.tsx",
               "./islands/OutOfStock.tsx",
-              "./islands/ProductCard.tsx",
               "./islands/ProductImageZoom.tsx",
               "./islands/SearchControls.tsx",
               "./islands/ShippingSimulation.tsx",
+              "./islands/SkuSelector.tsx",
               "./islands/SliderJS.tsx",
               "./islands/WishlistButton.tsx",
               "$live/handlers/devPage.ts",
@@ -1516,6 +1518,13 @@
           ],
           "title": "In Product Group With I D"
         },
+        "isSimilarTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvY29tbWVyY2UvdHlwZXMudHM=@Product"
+          },
+          "title": "Is Similar To"
+        },
         "isVariantOf": {
           "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvY29tbWVyY2UvdHlwZXMudHM=@ProductGroup",
           "title": "Is Variant Of"
@@ -1944,6 +1953,28 @@
                 "deco-sites/std/functions/vtexProductList.ts"
               ],
               "default": "deco-sites/std/functions/vtexProductList.ts"
+            }
+          }
+        },
+        {
+          "title": "Product List with Similars",
+          "description": "Useful for shelves and galleries.",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialCollectionProps&partialProductIDProps&partialQueryProps"
+            }
+          ],
+          "required": [
+            "__resolveType"
+          ],
+          "properties": {
+            "__resolveType": {
+              "type": "string",
+              "enum": [
+                "deco-sites/mariafilo/loaders/vtexProductList.tsx"
+              ],
+              "default": "deco-sites/mariafilo/loaders/vtexProductList.tsx"
             }
           }
         },
@@ -2426,6 +2457,28 @@
                 "deco-sites/std/functions/vtexWishlist.ts"
               ],
               "default": "deco-sites/std/functions/vtexWishlist.ts"
+            }
+          }
+        },
+        {
+          "title": "Product List Page with Similars",
+          "description": "Returns data ready for search pages like category,brand pages",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3RQYWdlLnRzeA==@Props"
+            }
+          ],
+          "required": [
+            "__resolveType"
+          ],
+          "properties": {
+            "__resolveType": {
+              "type": "string",
+              "enum": [
+                "deco-sites/mariafilo/loaders/vtexProductListPage.tsx"
+              ],
+              "default": "deco-sites/mariafilo/loaders/vtexProductListPage.tsx"
             }
           }
         },
@@ -3512,7 +3565,8 @@
         "key",
         "value"
       ],
-      "title": "StateProp"
+      "title": "StateProp",
+      "titleBy": "key"
     },
     "ZGVjby1jeC9saXZlL2xvYWRlcnMvc3RhdGUudHM=@StateProp[]": {
       "type": "array",
@@ -3723,6 +3777,285 @@
         "id"
       ],
       "title": "deco-cx/live/loaders/workflows/get.ts@Props"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@CommonProps": {
+      "type": "object",
+      "properties": {
+        "hideUnavailableItems": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "title": "Hide Unavailable Items",
+          "description": "Do not return out of stock items"
+        }
+      },
+      "required": [],
+      "title": "CommonProps"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialCollectionProps": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@CommonProps"
+        }
+      ],
+      "properties": {
+        "collection": {
+          "type": "string",
+          "title": "Collection ID (e.g.: 139)",
+          "pattern": "\\d*"
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "price:desc"
+            },
+            {
+              "type": "string",
+              "const": "price:asc"
+            },
+            {
+              "type": "string",
+              "const": "orders:desc"
+            },
+            {
+              "type": "string",
+              "const": "name:desc"
+            },
+            {
+              "type": "string",
+              "const": "name:asc"
+            },
+            {
+              "type": "string",
+              "const": "release:desc"
+            },
+            {
+              "type": "string",
+              "const": "discount:desc"
+            },
+            {
+              "type": "string",
+              "const": ""
+            }
+          ],
+          "type": "string",
+          "description": "search sort parameter",
+          "title": "Sort"
+        },
+        "count": {
+          "type": "number",
+          "description": "total number of items to display. Required for collection",
+          "title": "Count"
+        }
+      },
+      "required": [],
+      "title": "partialCollectionProps"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialQueryProps": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@CommonProps"
+        }
+      ],
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "query to use on search",
+          "title": "Query"
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "price:desc"
+            },
+            {
+              "type": "string",
+              "const": "price:asc"
+            },
+            {
+              "type": "string",
+              "const": "orders:desc"
+            },
+            {
+              "type": "string",
+              "const": "name:desc"
+            },
+            {
+              "type": "string",
+              "const": "name:asc"
+            },
+            {
+              "type": "string",
+              "const": "release:desc"
+            },
+            {
+              "type": "string",
+              "const": "discount:desc"
+            },
+            {
+              "type": "string",
+              "const": ""
+            }
+          ],
+          "type": "string",
+          "description": "search sort parameter",
+          "title": "Sort"
+        },
+        "count": {
+          "type": "number",
+          "description": "total number of items to display. Required for query",
+          "title": "Count"
+        }
+      },
+      "required": [],
+      "title": "partialQueryProps"
+    },
+    "ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID": {
+      "type": "string",
+      "description": "Equivalent to sku ID in VTEX platform",
+      "title": "ProductID"
+    },
+    "ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID[]": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID"
+      },
+      "title": "ProductID[]"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialProductIDProps": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@CommonProps"
+        }
+      ],
+      "properties": {
+        "ids": {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID[]",
+          "description": "SKU ids to retrieve",
+          "title": "Ids"
+        }
+      },
+      "required": [],
+      "title": "partialProductIDProps"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialCollectionProps&partialProductIDProps&partialQueryProps": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialCollectionProps"
+        },
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialQueryProps"
+        },
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialProductIDProps"
+        }
+      ],
+      "title": "deco-sites/mariafilo/loaders/vtexProductList.tsx@partialCollectionProps&partialProductIDProps&partialQueryProps"
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3RQYWdlLnRzeA==@Props": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "overides the query term",
+          "title": "Query"
+        },
+        "count": {
+          "type": "number",
+          "title": "Items per page",
+          "description": "number of products per page to display"
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "price:desc"
+            },
+            {
+              "type": "string",
+              "const": "price:asc"
+            },
+            {
+              "type": "string",
+              "const": "orders:desc"
+            },
+            {
+              "type": "string",
+              "const": "name:desc"
+            },
+            {
+              "type": "string",
+              "const": "name:asc"
+            },
+            {
+              "type": "string",
+              "const": "release:desc"
+            },
+            {
+              "type": "string",
+              "const": "discount:desc"
+            },
+            {
+              "type": "string",
+              "const": ""
+            }
+          ],
+          "type": "string",
+          "title": "Sorting"
+        },
+        "fuzzy": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "automatic"
+            },
+            {
+              "type": "string",
+              "const": "disabled"
+            },
+            {
+              "type": "string",
+              "const": "enabled"
+            }
+          ],
+          "type": "string",
+          "title": "Fuzzy"
+        },
+        "selectedFacets": {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@SelectedFacet[]",
+          "title": "Selected Facets",
+          "description": "Override selected facets from url"
+        },
+        "hideUnavailableItems": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "title": "Hide Unavailable Items",
+          "description": "Do not return out of stock items"
+        },
+        "pageOffset": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "title": "Starting page query parameter offset.",
+          "description": "Set the starting page offset. Default to 1."
+        }
+      },
+      "required": [
+        "count"
+      ],
+      "title": "deco-sites/mariafilo/loaders/vtexProductListPage.tsx@Props"
     },
     "ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@Fields": {
       "type": "object",
@@ -6336,18 +6669,6 @@
       "required": [],
       "title": "partialQueryProps"
     },
-    "ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID": {
-      "type": "string",
-      "description": "Equivalent to sku ID in VTEX platform",
-      "title": "ProductID"
-    },
-    "ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID[]": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC90eXBlcy50cw==@ProductID"
-      },
-      "title": "ProductID[]"
-    },
     "ZGVjby1zaXRlcy9zdGQvcGFja3MvdnRleC9sb2FkZXJzL2ludGVsbGlnZW50U2VhcmNoL3Byb2R1Y3RMaXN0LnRz@partialProductIDProps": {
       "type": "object",
       "allOf": [
@@ -7071,6 +7392,19 @@
       ],
       "title": "deco-sites/mariafilo/components/ui/ShippingSimulation.tsx@Props"
     },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9wcm9kdWN0L1NrdVNlbGVjdG9yLnRzeA==@Props": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvY29tbWVyY2UvdHlwZXMudHM=@Product",
+          "title": "Product"
+        }
+      },
+      "required": [
+        "product"
+      ],
+      "title": "deco-sites/mariafilo/components/product/SkuSelector.tsx@Props"
+    },
     "ZGVjby1jeC9saXZlL2hhbmRsZXJzL2RldlBhZ2UudHM=@DevConfig": {
       "type": "object",
       "properties": {
@@ -7255,7 +7589,8 @@
         "name",
         "sections"
       ],
-      "title": "deco-cx/live/pages/LivePage.tsx@Props"
+      "title": "deco-cx/live/pages/LivePage.tsx@Props",
+      "titleBy": "name"
     },
     "ZGVjby1jeC9saXZlL3NlY3Rpb25zL1BhZ2VJbmNsdWRlLnRzeA==@Props": {
       "type": "object",
@@ -11299,7 +11634,8 @@
         "matcher",
         "name"
       ],
-      "title": "deco-cx/live/flags/audience.ts@Audience"
+      "title": "deco-cx/live/flags/audience.ts@Audience",
+      "titleBy": "name"
     },
     "ZGVjby1jeC9saXZlL2ZsYWdzL2V2ZXJ5b25lLnRz@EveryoneConfig": {
       "type": "object",
@@ -11400,7 +11736,7 @@
       ],
       "title": "WorkflowRef"
     },
-    "ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@WorkflowRef|fd0fcd78c4b899b30e00299b516a5aff": {
+    "ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@649808247687af7388e003a267dc99e5|WorkflowRef": {
       "anyOf": [
         {
           "$ref": "#/definitions/ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@WorkflowRef"
@@ -11418,13 +11754,13 @@
           ]
         }
       ],
-      "title": "WorkflowRef|fd0fcd78c4b899b30e00299b516a5aff"
+      "title": "649808247687af7388e003a267dc99e5|WorkflowRef"
     },
     "ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@Props": {
       "type": "object",
       "properties": {
         "workflow": {
-          "$ref": "#/definitions/ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@WorkflowRef|fd0fcd78c4b899b30e00299b516a5aff",
+          "$ref": "#/definitions/ZGVjby1jeC9saXZlL2FjdGlvbnMvd29ya2Zsb3dzL3N0YXJ0LnRz@649808247687af7388e003a267dc99e5|WorkflowRef",
           "title": "Workflow"
         },
         "id": {
@@ -12587,6 +12923,50 @@
         }
       }
     },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4": {
+      "title": "Product List with Similars",
+      "description": "Useful for shelves and galleries.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4@partialCollectionProps&partialProductIDProps&partialQueryProps"
+        }
+      ],
+      "required": [
+        "__resolveType"
+      ],
+      "properties": {
+        "__resolveType": {
+          "type": "string",
+          "enum": [
+            "deco-sites/mariafilo/loaders/vtexProductList.tsx"
+          ],
+          "default": "deco-sites/mariafilo/loaders/vtexProductList.tsx"
+        }
+      }
+    },
+    "ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3RQYWdlLnRzeA==": {
+      "title": "Product List Page with Similars",
+      "description": "Returns data ready for search pages like category,brand pages",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3RQYWdlLnRzeA==@Props"
+        }
+      ],
+      "required": [
+        "__resolveType"
+      ],
+      "properties": {
+        "__resolveType": {
+          "type": "string",
+          "enum": [
+            "deco-sites/mariafilo/loaders/vtexProductListPage.tsx"
+          ],
+          "default": "deco-sites/mariafilo/loaders/vtexProductListPage.tsx"
+        }
+      }
+    },
     "ZGVjby1zaXRlcy9zdGQvbG9hZGVycy92dGV4L2NhcnQudHM=": {
       "title": "deco-sites/std/loaders/vtex/cart.ts",
       "docs": "https://developers.vtex.com/docs/api-reference/checkout-api#get-/api/checkout/pub/orderForm",
@@ -12965,22 +13345,6 @@
         }
       }
     },
-    "Li9pc2xhbmRzL1Byb2R1Y3RDYXJkLnRzeA==": {
-      "title": "./islands/ProductCard.tsx",
-      "type": "object",
-      "required": [
-        "__resolveType"
-      ],
-      "properties": {
-        "__resolveType": {
-          "type": "string",
-          "enum": [
-            "./islands/ProductCard.tsx"
-          ],
-          "default": "./islands/ProductCard.tsx"
-        }
-      }
-    },
     "Li9pc2xhbmRzL1Byb2R1Y3RJbWFnZVpvb20udHN4": {
       "title": "./islands/ProductImageZoom.tsx",
       "type": "object",
@@ -13031,6 +13395,27 @@
             "./islands/ShippingSimulation.tsx"
           ],
           "default": "./islands/ShippingSimulation.tsx"
+        }
+      }
+    },
+    "Li9pc2xhbmRzL1NrdVNlbGVjdG9yLnRzeA==": {
+      "title": "./islands/SkuSelector.tsx",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vY29tcG9uZW50cy9wcm9kdWN0L1NrdVNlbGVjdG9yLnRzeA==@Props"
+        }
+      ],
+      "required": [
+        "__resolveType"
+      ],
+      "properties": {
+        "__resolveType": {
+          "type": "string",
+          "enum": [
+            "./islands/SkuSelector.tsx"
+          ],
+          "default": "./islands/SkuSelector.tsx"
         }
       }
     },
@@ -14820,6 +15205,12 @@
           "$ref": "#/definitions/JGxpdmUvbG9hZGVycy93b3JrZmxvd3MvZ2V0LnRz"
         },
         {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3QudHN4"
+        },
+        {
+          "$ref": "#/definitions/ZGVjby1zaXRlcy9tYXJpYWZpbG8vbG9hZGVycy92dGV4UHJvZHVjdExpc3RQYWdlLnRzeA=="
+        },
+        {
           "$ref": "#/definitions/ZGVjby1zaXRlcy9zdGQvbG9hZGVycy92dGV4L2NhcnQudHM="
         },
         {
@@ -14892,9 +15283,6 @@
           "$ref": "#/definitions/Li9pc2xhbmRzL091dE9mU3RvY2sudHN4"
         },
         {
-          "$ref": "#/definitions/Li9pc2xhbmRzL1Byb2R1Y3RDYXJkLnRzeA=="
-        },
-        {
           "$ref": "#/definitions/Li9pc2xhbmRzL1Byb2R1Y3RJbWFnZVpvb20udHN4"
         },
         {
@@ -14902,6 +15290,9 @@
         },
         {
           "$ref": "#/definitions/Li9pc2xhbmRzL1NoaXBwaW5nU2ltdWxhdGlvbi50c3g="
+        },
+        {
+          "$ref": "#/definitions/Li9pc2xhbmRzL1NrdVNlbGVjdG9yLnRzeA=="
         },
         {
           "$ref": "#/definitions/Li9pc2xhbmRzL1NsaWRlckpTLnRzeA=="

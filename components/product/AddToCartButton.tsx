@@ -4,6 +4,11 @@ import {
   useAddToCart,
 } from "$store/sdk/useAddToCart.ts";
 
+import { useSkuSelector } from "$store/sdk/useSkuSelector.ts";
+import { useUI } from "$store/sdk/useUI.ts";
+
+import { useEffect, useState } from "preact/hooks";
+
 interface Props extends UseAddToCartProps {
   /**
    * @description Product id
@@ -14,23 +19,55 @@ interface Props extends UseAddToCartProps {
 function AddToCartButton(
   { skuId, sellerId, discount, price, productGroupId, name }: Props,
 ) {
-  const props = useAddToCart({
-    skuId,
-    sellerId,
-    discount,
-    price,
-    productGroupId,
-    name,
-  });
+  const { selectedSku: selected } = useSkuSelector();
+  const { displayCart } = useUI();
+  const [clicked, setClicked] = useState(false);
+
+  console.log({ selected: selected.value });
+
+  if (
+    selected.value !== null && selected.value.productGroupID === productGroupId
+  ) {
+    const props = useAddToCart({
+      skuId: selected.value.sku,
+      sellerId,
+      discount,
+      price,
+      productGroupId: selected.value.productGroupID,
+      name,
+    });
+
+    console.log("loading", props.loading);
+
+    useEffect(() => {
+      // Trigger your effect
+
+      if (clicked && displayCart.value) {
+        selected.value = null;
+      }
+
+      return () => {
+        // Optional: Any cleanup code
+      };
+    }, [clicked, displayCart.value]);
+
+    return (
+      <Button
+        data-deco="add-to-cart"
+        {...props}
+        class={`w-full h-12 text-sm font-normal bg-role-neutral-dark-1 hover:bg-role-neutral-dark-2 rounded-none border-none text-role-neutral-light-1`}
+      >
+        Adicionar à Sacola
+      </Button>
+    );
+  }
 
   return (
-    <Button
-      data-deco="add-to-cart"
-      {...props}
-      class={`w-full h-12 text-sm font-normal bg-role-neutral-dark-1 hover:bg-role-neutral-dark-2 rounded-none border-none text-role-neutral-light-1`}
+    <div
+      class={`bg-role-neutral-dark-1 text-role-neutral-light-1 w-full h-12 flex justify-center items-center text-sm`}
     >
-      Adicionar à Sacola
-    </Button>
+      SELECIONE UM TAMANHO
+    </div>
   );
 }
 

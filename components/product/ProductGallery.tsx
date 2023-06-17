@@ -1,6 +1,6 @@
 import { Product } from "deco-sites/std/commerce/types.ts";
 
-import ProductCard from "$store/islands/ProductCard.tsx";
+import ProductCard from "./ProductCard.tsx";
 
 export interface Columns {
   mobile?: number;
