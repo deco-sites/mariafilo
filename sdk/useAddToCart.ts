@@ -5,7 +5,7 @@ import { useUI } from "deco-sites/fashion/sdk/useUI.ts";
 import { sendEvent } from "deco-sites/fashion/sdk/analytics.tsx";
 
 export interface Options {
-  skuId: string;
+  skuId?: string;
   sellerId?: string;
   price: number;
   discount: number;
@@ -34,7 +34,7 @@ export const useAddToCart = (
     try {
       isAddingToCart.value = true;
       await addItems({
-        orderItems: [{ id: skuId, seller: sellerId, quantity: 1 }],
+        orderItems: [{ id: skuId!, seller: sellerId, quantity: 1 }],
       });
 
       sendEvent({
@@ -46,7 +46,7 @@ export const useAddToCart = (
             price,
             discount,
             item_name: name,
-            item_variant: skuId,
+            item_variant: skuId!,
           }],
         },
       });

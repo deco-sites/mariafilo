@@ -26,14 +26,16 @@ function AddToCartButton(
   console.log({ selected: selected.value });
 
   if (
-    selected.value !== null && selected.value.productGroupID === productGroupId
+    skuId ||
+    (selected.value !== null &&
+      selected.value.productGroupID === productGroupId)
   ) {
     const props = useAddToCart({
-      skuId: selected.value.sku,
+      skuId: skuId || selected.value?.sku,
       sellerId,
       discount,
       price,
-      productGroupId: selected.value.productGroupID,
+      productGroupId: productGroupId,
       name,
     });
 

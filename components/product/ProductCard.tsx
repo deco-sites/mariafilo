@@ -261,7 +261,6 @@ function ProductCard({ product, preload, itemListName }: Props) {
             class={`hidden group-hover:flex flex-auto items-end`}
           >
             <AddToCartButton
-              skuId={productID}
               sellerId={seller!}
               price={price ?? 0}
               discount={price && listPrice ? listPrice - price : 0}
